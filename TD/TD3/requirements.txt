@@ -1,0 +1,8 @@
+datasets
+transformers
+ipykernel
+ipywidgets
+torch
+torchvision
+hf_xet
+accelerate
