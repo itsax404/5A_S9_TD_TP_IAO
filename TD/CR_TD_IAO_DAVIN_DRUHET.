@@ -24,7 +24,7 @@ L'objectif de ce travail est d'illustrer le fonctionnement d'un réseau de neuro
 
 ## Compréhension du programme
 
-Le programme `perceptron_learn.py` implémente un réseau de neurones artificiels élémentaire constitué d'un seul neurone (Perceptron). Son but est d'apprendre à reproduire une fonction logique binaire (par défuat la porte **AND**) via un algorithme d'apprentissage supervisé.
+Le programme `perceptron_learn.py` implémente un réseau de neurones artificiels élémentaire constitué d'un seul neurone (Perceptron). Son but est d'apprendre à reproduire une fonction logique binaire (par défaut la porte **AND**) via un algorithme d'apprentissage supervisé.
 
 Dans ce code, la première section est la définition des entrées et des hyperparamètres: 
 
@@ -37,8 +37,8 @@ Dans ce code, la première section est la définition des entrées et des hyperp
 **Hyperparamètres**  
 
 - `weights` : Ce sont les poids des neurones (leur valeur initialisé aléatoirement puis modifié par les algorithmes.)
-- `bias` : c'est le biais. Il permet de changer les valeurs de sortie des neurones pour pas être bloquer dans un état spécifique
-- `coeff` : c'est le coefficient d'apprentisage. Il détermine la vitesse à laquelle les poids sont modifiés à chaque erreur (pas de gradient)
+- `bias` : c'est le biais. Il permet de changer les valeurs de sortie des neurones pour pas être bloqué dans un état spécifique
+- `coeff` : c'est le coefficient d'apprentissage. Il détermine la vitesse à laquelle les poids sont modifiés à chaque erreur (pas de gradient)
 - `iterations` : c'est le nombre d'itérations
 
 **Itérations**  
@@ -55,7 +55,7 @@ On itére les entrées possibles, pour chaque entrée, on fait :
 - finalement, on corrige les poids (rétropropagation) avec cette formule $W_{nouveau} = W_{actuel} + (coeff \times input \times delta)$.
 
 **Sorties**
-A la fin du programme, il trace l'évolution de l'erreur au fil des itérations pour visualiser la converge.  
+A la fin du programme, il trace l'évolution de l'erreur au fil des itérations pour visualiser la convergence.  
 De plus, il renvoie les poids finaux dans la console et dans un fichier `weights.csv`
 
 ## Entraînement du programme de la porte AND
@@ -71,9 +71,9 @@ Concernant les poids, on se retrouve avec :
 - $w_{1} = 9.56174144292132$
 - $w_{2} = 9.55552021068763$
 
-On observe que $w_{1} \simeq w_{2}$ alors que $w_{0}$ est 1,55 fois supérieur des autres poids.  
+On observe que $w_{1} \simeq w_{2}$ alors que $w_{0}$ est 1,55 fois supérieur aux autres poids.  
 
-Pour analyser ces poids, faut reprendre la formule de $y$.
+Pour analyser ces poids, il faut reprendre la formule de $y$.
 $$y = (biais \times w_{0}) + (x_{1} \times w_{1}) + (x_{2} \times w_{2})$$
 
 Il y a trois cas possibles :
@@ -147,11 +147,11 @@ Dans cette expérience, on va mettre l'hyper-paramètre `coeff` à 0,01.
 
 Avec cette valeur, on trouve ce graphique d'évolution de l'erreur :
 
-![Evolution de l'erreur en fonction du nombre d'itéraction avec le paramètre `coeff` à $0,01$](./img/3.png){#fig:error_door_and_coeff_faible}
+![Evolution de l'erreur en fonction du nombre d'itération avec le paramètre `coeff` à $0,01$](./img/3.png){#fig:error_door_and_coeff_faible}
 
 Et ce graphique d'évolution des poids :
 
-![Evolution des poids en fonction du nombre d'itéraction avec le paramètre `coeff` à $0,01$](./img/4.png){#fig:weights_door_and_coeff_faible}
+![Evolution des poids en fonction du nombre d'itération avec le paramètre `coeff` à $0,01$](./img/4.png){#fig:weights_door_and_coeff_faible}
 
 On peut relever plusieurs observations de deux graphiques :
 
@@ -166,11 +166,11 @@ Dans cette expérience, on va mettre l'hyper-paramètre `coeff` à 10,0.
 
 Avec cette valeur, on trouve ce graphique d'évolution de l'erreur :
 
-![Evolution de l'erreur en fonction du nombre d'itéraction avec le paramètre `coeff` à $10,0$](./img/5.png){#fig:error_door_and_coeff_fort}
+![Evolution de l'erreur en fonction du nombre d'itération avec le paramètre `coeff` à $10,0$](./img/5.png){#fig:error_door_and_coeff_fort}
 
 Et ce graphique d'évolution des poids :
 
-![Evolution des poids en fonction du nombre d'itéraction avec le paramètre `coeff` à $10,0$](./img/6.png){#fig:weights_door_and_coeff_fort}
+![Evolution des poids en fonction du nombre d'itération avec le paramètre `coeff` à $10,0$](./img/6.png){#fig:weights_door_and_coeff_fort}
 
 A partir de ces deux graphiques, on peut tirer ces observations :
 
@@ -186,11 +186,11 @@ Dans cette expérience, on va mettre l'hyper-paramètre `iterations` à 50.
 
 Avec cette valeur, on trouve ce graphique d'évolution de l'erreur :
 
-![Evolution de l'erreur en fonction du nombre d'itéraction avec le paramètre `iterations` à $50$](./img/7.png){#fig:error_door_and_iterations}
+![Evolution de l'erreur en fonction du nombre d'itération avec le paramètre `iterations` à $50$](./img/7.png){#fig:error_door_and_iterations}
 
 Et ce graphique d'évolution des poids :
 
-![Evolution des poids en fonction du nombre d'itéraction avec le paramètre `iterations` à $50$](./img/8.png){#fig:weights_door_and_iterations}
+![Evolution des poids en fonction du nombre d'itération avec le paramètre `iterations` à $50$](./img/8.png){#fig:weights_door_and_iterations}
 
 A partir de ces deux graphiques, on peut tirer ces observations :
 
@@ -295,7 +295,7 @@ En conclusion, si le perceptron est un classifieur linéaire efficace, la résol
 
 ## Introduction
 
-Dans ce TD, on va étudier deux implémentations de GAN (_Generative Adversarial Network)_. Un GAN est une classe d'algorithme d'apprentisage non-supervisé, utilisant deux réseaux neuronaux placés en compétition, un jeu. Le premier est appelé "générateur" : celui-ci génère un échantillon (ex: image, position de points,...). Le deuxième est appelé "discriminateur" : celui-ci essaie de déterminer si les points du générateur sont vrais ou faux. Le but du générateur est de tromper le discriminateur. Le jeu doit être dit à somme nulle. Ca veut dire que si un joueur gagne, cela constitue la parte pour l'autre joueur.
+Dans ce TD, on va étudier deux implémentations de GAN (_Generative Adversarial Network)_. Un GAN est une classe d'algorithme d'apprentisage non-supervisé, utilisant deux réseaux neuronaux placés en compétition, un jeu. Le premier est appelé "générateur" : celui-ci génère un échantillon (ex: image, position de points,...). Le deuxième est appelé "discriminateur" : celui-ci essaie de déterminer si les points du générateur sont vrais ou faux. Le but du générateur est de tromper le discriminateur. Le jeu doit être dit à somme nulle. Cela signifie que si un joueur gagne, cela constitue la perte pour l'autre joueur.
 
 ## GAN Lab
 
@@ -310,7 +310,7 @@ On retrouve nos deux systèmes neuronaux :
 Mais pas que, on observe le bruit et les liens entre ces trois éléments.
 
 Ainsi, le générateur s'appuie du bruit pour générer ses "faux" points.
-Le discriminateur est constamment relié aux bons points, afin d'apprendre leurs positions et de comprarer avec les faux points du générateur.
+Le discriminateur est constamment relié aux bons points, afin d'apprendre leurs positions et de comparer avec les faux points du générateur.
 Le discriminateur sort une liste de points qu'il considère comme faux.
 Avec cette liste de points, on calcule la perte du générateur (c'est le nombre de points faux détectés par le discriminateur divisés par le nombre de points total) et celle du discriminateur (le nombre de points faux non détectés divisés par le nombre de points total).
 Avec ces pertes, on peut calculer les gradients et alimenter les deux systèmes neuronaux afin d'améliorer, pour le générateur, la non-détection des faux points, et pour le discriminateur, la détection des faux points.
@@ -340,26 +340,26 @@ Ainsi, le générateur ne va pas pouvoir placer des points qui sont éloignés d
 
 ![Génération avec une distribution gaussienne 1D](./img/14.png){#fig:generation_distrib_1D}
 
-Sur l'image, on a mis la génération du bruit sur une dimension utilisant une distribution gaussienne. Les points générés (et découverts) ne suivent qu'une ligne (alors que les points réelles sont sur une distribution 2D).  
+Sur l'image, on a mis la génération du bruit sur une dimension utilisant une distribution gaussienne. Les points générés (et découverts) ne suivent qu'une ligne (alors que les points réells sont sur une distribution 2D).  
 
 Le deuxième sous-paramètre, la distribution mathématique.
 Dans GANlab, on a deux types :
 
-- uniforme 
+- uniforme
 - gaussienne
 
 La distribution uniforme fait que les points de départ ont la même probabilité d'être choisis. La distribution gaussienne fait en sorte que les points de départ sont concentrés autour du centre, avec moins de points sur les bords.
 
 #### Couches et neurones du Générateur
 
-Dans GANlab, on peut paramètrer le générateur sur deux paramètres :
+Dans GANlab, on peut paramétrer le générateur sur deux paramètres :
 
 - le nombre de couches
 - le nombre de neurones
 
 Si on réduit le nombre de couches et de neurones, le générateur est "simple" (faible capacité). Il a du mal à apprendre des formes complexes. Les points orange forment probablement un "blob" simple ou une ligne.
 
-Au contraire, si on augmente le nombre de couches et de neurones, le générateur est "intelligent". Il apprend à faire des formes très complexes à partir du bruit. Sauf que si il est trop puissant, il peut devenir long à entraîner ou instable.
+Au contraire, si on augmente le nombre de couches et de neurones, le générateur est "intelligent". Il apprend à faire des formes très complexes à partir du bruit. Cependant, s'il que si il est trop puissant, il peut devenir long à entraîner ou instable.
 
 **Couches et neurones du Discriminateur**
 
@@ -377,7 +377,7 @@ Au contraire, si on augmente le nombre de couches et de neurones, le discriminat
 Ce nombre de mises à jour par entraînement est le nombre d'entraînement de chaque réseau (générateur et discriminateur) à chaque étape
 Le nombre de mises à jour du générateur et du discriminateur forme le rapport d'entraînement.
 
-Si on prend un rapport de 1:1 (discriminateur:générateur), le discriminateur et le générateur apprend au même rythme. Sauf que c'est instable, car si un des réseaux va prendre de l'avance, l'autre ne pourra pas suivre.
+Si on prend un rapport de 1:1 (discriminateur:générateur), le discriminateur et le générateur apprend au même rythme. Néanmoins, cette configuration est instable car si un des réseaux va prendre de l'avance, l'autre ne pourra pas suivre.
 
 Si on prend un rapport 5:1, le discriminateur va toujours être un peu meilleur que le générateur. Cela permet au générateur d'avoir des indications claires et précises au générateur sur la manière de s'améliorer. Si le discriminateur est trop faible, ses conseils sont mauvais.
 
@@ -435,14 +435,14 @@ Le modèle produit ici le portrait d'une femme aux cheveux longs bruns avec des 
 
 ##### Analyse des résultats
 
-Les images obtenus démontrent la pusissance de l'architecture StyleGAN3. Contrairement aux premiers GANs qui produisaient souvent des artefacts visuels ou des texutures floues ("texture sticking"), les visages générés ici possèdent un niveau de détails (cheveux, paux, éclairage) indiscernable d'une photo réelle. L'architecture "Alias-Free" permet une cohérence géométrique parfaite des textures.
+Les images obtenus démontrent la puissance de l'architecture StyleGAN3. Contrairement aux premiers GANs qui produisaient souvent des artefacts visuels ou des textutures floues ("texture sticking"), les visages générés ici possèdent un niveau de détails (cheveux, peux, éclairage) indiscernable d'une photo réelle. L'architecture "Alias-Free" permet une cohérence géométrique parfaite des textures.
 
 ### Conclusion
 
 Ce TD nous a permis d'aborder les réseaux antagonistes génératifs (GAN) sous deux angles complémentaires :
 
 1. L'approche théorique et visuelle avec GAN Lab : Nous avons pu observer la dynamique de compétition entre le générateur (qui crée les faux) et le discriminateur (qui les détecte). Nous avons constaté l'importance cruciale de l'équilibre des hyperparamètres (taux d'apprentissage, complexité des réseaux) : si l'un des deux réseaux devient trop fort trop vite, l'apprentissage s'effondre.
-2. L'approche pratique et "état de l'art" avec StyleGAN3: En utilisant Docker pour instancier un modèle complexe, nous avons manipulé un outil de recherche avancé. Cela a illustré comment les concepts vus dans GAN Lab (bruit, couches, distribution), une fois passés à l'échelle supérieure avec des architectures optimisées, permettent de générer des données synthétiques d'un réalisme saisisssant.
+2. L'approche pratique et "état de l'art" avec StyleGAN3: En utilisant Docker pour instancier un modèle complexe, nous avons manipulé un outil de recherche avancé. Cela a illustré comment les concepts vus dans GAN Lab (bruit, couches, distribution), une fois passés à l'échelle supérieure avec des architectures optimisées, permettent de générer des données synthétiques d'un réalisme saisissant.
 
 # TD 3 - Transformers
 
@@ -454,7 +454,7 @@ L'objectif de ce travail dirigé est de se familiariser avec l'utilisation des m
 
 ### Installation et authentification
 
-Nous avons d'abord installé les bibliothèques nécessaires (`datasets` et`transformers`) et nous nous sommes conntectés au Hub d'Hugging Face via `notebook_login` pour pouvoir sauvegarder nos modèles.
+Nous avons d'abord installé les bibliothèques nécessaires (`datasets` et`transformers`) et nous nous sommes connectés au Hub d'Hugging Face via `notebook_login` pour pouvoir sauvegarder nos modèles.
 
 ### Dataset
 
@@ -471,7 +471,7 @@ Ce type de modèle doit prédire le prochain token d'une phrase en se basant uni
 
 ### Configuration
 
-Pour cette partie, notre objectif est de créer un modèle du type GPT2. Pour créer les "tokens" (morceau de texte contenant un contexte syntaxique), on va le modèle [`sgugger/gpt2-like-tokenizer`](https://huggingface.co/sgugger/gpt2-like-tokenizer).De plus, la taille des blocs crées est de 128 tokens.  
+Pour cette partie, notre objectif est de créer un modèle du type GPT2. Pour créer les "tokens" (morceau de texte contenant un contexte syntaxique), on va utiliser le modèle [`sgugger/gpt2-like-tokenizer`](https://huggingface.co/sgugger/gpt2-like-tokenizer).De plus, la taille des blocs crées est de 128 tokens.  
 
 ### Entraînement
 
@@ -525,7 +525,7 @@ Ainsi, on calcule la perplexité, et on trouve $963,88$. Donc, le modèle hésit
 
 ### Analyse
 
-La perplexité obtenue ici ($963,88$) est supérieure à celle du modèle GPT-2. Bien que la tâche MLM soi théoriquement plus simple car elle bénéficie de plus contexte, le résultat montre que le modèle BERT initialisé aléatoirement a eu du mal à converger rapidement avec si peu de données. Comme pour le CLM, un entraînement plus long sur un corpus plus vaste serait nécessaire pour obtenir des performances utilisables.
+La perplexité obtenue ici ($963,88$) est supérieure à celle du modèle GPT-2. Bien que la tâche MLM soit théoriquement plus simple car elle bénéficie de plus contexte, le résultat montre que le modèle BERT initialisé aléatoirement a eu du mal à converger rapidement avec si peu de données. Comme pour le CLM, un entraînement plus long sur un corpus plus vaste serait nécessaire pour obtenir des performances utilisables.
 
 ## Conclusion
 
@@ -534,4 +534,4 @@ Ce TD a permis de mettre en oeuvre deux architectures majeures de l'état de l'a
 - Préparer et tokeniser le dataset Wikitest-2
 - Configurer et entraîner sur le Hub Hugging Face (commit confirmé dans les logs).
 
-Les valeurs de perplexité élevés (432 et 963) soulignent l'importance de la quantité de données et du temps de calcul (nombre d'époques) pour l'entraînement efficace des Large Language Models (LLMs).
+Les valeurs de perplexité élevées (432 et 963) soulignent l'importance de la quantité de données et du temps de calcul (nombre d'époques) pour l'entraînement efficace des Large Language Models (LLMs).
