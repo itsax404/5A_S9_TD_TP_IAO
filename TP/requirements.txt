@@ -1,1 +1,2 @@
 requirements : 
+pip install requests tqdm
