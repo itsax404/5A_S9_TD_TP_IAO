@@ -45,39 +45,71 @@ class DatasetManager:
         csv_output = self.rimes_extract_dir / "metadata.csv"
 
         if csv_output.exists():
-            print("RIMES déjà prêt.")
+            print("ATTENTION : metadata.csv existe déjà. Supprimez-le pour régénérer.")
             return
 
-        # Extraction si le dossier est vide
+        # Extraction si nécessaire
         if not any(self.rimes_extract_dir.iterdir()):
              if not self._extract_zip(self.rimes_zip_path, self.rimes_extract_dir):
                 return
         
-        # Parsing du XML
+        # Recherche du fichier XML
         xml_files = list(self.rimes_extract_dir.rglob("*.xml"))
         data = []
         
-        if xml_files:
-            print(f"Création du CSV depuis : {xml_files[0].name}")
-            tree = ET.parse(xml_files[0])
-            for elem in tree.getroot().iter():
-                if 'FileName' in elem.attrib and 'Value' in elem.attrib:
-                    filename = elem.attrib['FileName']
-                    full_path = list(self.rimes_extract_dir.rglob(filename))
-                    if full_path:
-                        data.append({
-                            "image_path": str(full_path[0]), 
-                            "label": elem.attrib['Value']
-                        })
-        else:
-            print("Pas de XML trouvé, indexation simple des images.")
-            for img in self.rimes_extract_dir.rglob("*"):
-                if img.suffix.lower() in ['.png', '.jpg']:
-                    data.append({"image_path": str(img), "label": img.stem})
+        if not xml_files:
+            print("ERREUR CRITIQUE : Aucun fichier XML trouvé dans le dossier RIMES.")
+            print("Vérifiez le contenu de data/rimes/")
+            return
 
-        if data:
-            pd.DataFrame(data).to_csv(csv_output, index=False)
-            print(f"metadata.csv créé ({len(data)} images).")
+        print(f"Fichier d'annotations trouvé : {xml_files[0].name}")
+        tree = ET.parse(xml_files[0])
+        root = tree.getroot()
+        
+        # Compteur pour vérifier si on trouve des labels
+        count_found = 0
+        
+        # On itère sur tous les éléments pour être souple sur la structure
+        for elem in root.iter():
+            # RIMES standard utilise 'FileName' et 'Value'
+            # D'autres versions utilisent 'text' ou 'Label'
+            
+            filename = elem.get('FileName')
+            # Essayer plusieurs clés possibles pour le label
+            label = elem.get('Value') or elem.get('Text') or elem.get('Label')
+            
+            if filename and label:
+                # Chercher l'image correspondante
+                full_path = list(self.rimes_extract_dir.rglob(filename))
+                
+                # Parfois le XML a l'extension .tif et l'image est .jpg
+                if not full_path:
+                    name_no_ext = Path(filename).stem
+                    # Cherche n'importe quelle image avec ce nom
+                    candidates = list(self.rimes_extract_dir.rglob(f"{name_no_ext}.*"))
+                    # Filtre pour garder les images
+                    full_path = [p for p in candidates if p.suffix.lower() in ['.jpg', '.png', '.tif']]
+
+                if full_path:
+                    data.append({
+                        "image_path": str(full_path[0]), 
+                        "label": label
+                    })
+                    count_found += 1
+
+        if count_found == 0:
+            print("ERREUR : Le fichier XML a été lu, mais aucun couple (FileName, Value) n'a été trouvé.")
+            print("Affichez le contenu du XML pour vérifier les noms des attributs.")
+            return
+
+        # Sauvegarde
+        df = pd.DataFrame(data)
+        df = df[df['label'].str.strip().astype(bool)]
+        df.to_csv(csv_output, index=False)
+        
+        print(f"SUCCÈS : metadata.csv régénéré avec {len(df)} images.")
+        print(f"Exemple de label : {df.iloc[0]['label']}") 
+
 
     def prepare_emnist(self):
         print("\n--- EMNIST ---")
