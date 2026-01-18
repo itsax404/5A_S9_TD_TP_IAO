@@ -1,24 +1,37 @@
 import torch
-import torchvision.transforms as T
+import torchvision.transforms.functional as F
 from PIL import Image
 
 class ImageTransform:
-    def __init__(self, img_height=32, img_width=128):
-        self.transform = T.Compose([
-            T.Grayscale(num_output_channels=1),
-            T.Resize((img_height, img_width)),
-            T.ToTensor(),
-            T.Normalize(mean=[0.5], std=[0.5])
-        ])
+    def __init__(self, img_height=32, img_width=1024):
+        self.img_height = img_height
+        self.img_width = img_width
 
     def __call__(self, img):
-        return self.transform(img)
+        # Redimensionnement proportionnel
+        percent = float(self.img_height) / float(img.size[1])
+        new_width = int((float(img.size[0]) * float(percent)))
+        
+        img = img.resize((new_width, self.img_height), Image.Resampling.LANCZOS)
+
+        # Padding avec fond blanc (Grayscale)
+        if new_width > self.img_width:
+            img = img.resize((self.img_width, self.img_height), Image.Resampling.LANCZOS)
+        else:
+            new_img = Image.new('L', (self.img_width, self.img_height), 255)
+            new_img.paste(img, (0, 0))
+            img = new_img
+
+        # Normalisation
+        img = F.to_tensor(img)
+        img = F.normalize(img, mean=[0.5], std=[0.5])
+        
+        return img
 
 class TextEncoder:
-    """Encode le texte en entiers pour le modèle et inversement."""
     def __init__(self, chars):
         self.chars = sorted(list(set(chars)))
-        self.char_to_idx = {c: i + 1 for i, c in enumerate(self.chars)} # 0 réservé pour le blank CTC
+        self.char_to_idx = {c: i + 1 for i, c in enumerate(self.chars)}
         self.idx_to_char = {i + 1: c for i, c in enumerate(self.chars)}
         self.blank_idx = 0
 
@@ -26,7 +39,6 @@ class TextEncoder:
         return torch.tensor([self.char_to_idx[c] for c in text if c in self.char_to_idx], dtype=torch.long)
 
     def decode(self, tokens):
-        """Décodage CTC (suppression des doublons et des blanks)."""
         res = []
         last_token = self.blank_idx
         for token in tokens:
