@@ -1,2 +1,6 @@
-requirements : 
-pip install requests tqdm
+requests 
+tqdm
+pandas
+torch
+torchvision
+pillow
